@@ -1,0 +1,106 @@
+// time limit exceeded
+// recursive solution
+class Solution1 {
+    static final int INF = (int) Double.POSITIVE_INFINITY;
+    public int coinChange(int[] coins, int amount) {
+        // base case
+        if (amount == 0) return 0;
+        if (amount < 0) return -1;
+        // initialize the numOfCoins to infinity
+        int numOfCoins = INF;
+        for (int coin:coins){
+            int nextNum = coinChange(coins, amount-coin);
+            if (nextNum == -1) continue;
+            numOfCoins = Math.min(numOfCoins, 1 + nextNum);
+        }
+        if (numOfCoins != INF){
+            return numOfCoins;
+        }else{
+            return -1;
+        }
+    } 
+}
+
+// glitch on leetcode with test case coins = [2], amount = 3 ???
+// recursive solution with memo, implemented with HashMap
+class Solution2_1 {
+    static final int INF = Integer.MAX_VALUE;
+    static HashMap<Integer, Integer> memo = new HashMap<>();
+    
+    public int coinChange(int[] coins, int amount) {
+        // use memo to avoid duplicates
+        if (memo.containsKey(amount)){
+            return memo.get(amount);
+        }
+        // base case
+        if (amount == 0) return 0;
+        if (amount < 0) return -1;
+        // initialize the numOfCoins to infinity
+        int numOfCoins = INF;
+        for (int coin:coins){
+            int nextNum = coinChange(coins, amount - coin);
+            if (nextNum == -1) 
+                continue;
+            numOfCoins = Math.min(numOfCoins, 1 + nextNum);
+        }
+        memo.put(amount, (numOfCoins != INF) ? numOfCoins:-1);
+        return memo.get(amount);
+    }
+}
+
+// recursive solution with memo, implemented with array
+class Solution2_2 {
+    static final int INF = Integer.MAX_VALUE;
+    static int[] memo;
+
+    public static int coinChange(int[] coins, int amount) {
+        if (amount < 0) {
+            return -1;
+        }
+        memo = new int[amount+1];
+        Arrays.fill(memo, INF);
+        return helper(coins, amount);
+    }
+
+    private static int helper(int[] coins, int amount){
+
+        // base case
+        if (amount == 0) return 0;
+        if (amount < 0) return -1;
+
+        // use memo to avoid duplicates
+        if (memo[amount] != INF){
+            return memo[amount];
+        }
+
+        // initialize the numOfCoins to infinity
+        int numOfCoins = INF;
+        for (int coin:coins){
+            int nextNum = helper(coins, amount - coin);
+            if (nextNum != -1 && nextNum < numOfCoins)
+                numOfCoins = 1 + nextNum;
+        }
+
+        memo[amount] = (numOfCoins != INF) ? numOfCoins : -1;
+
+        return memo[amount];
+    }
+}
+
+// iterative approach using dp array
+class Solution3 {
+    public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        int MAX = amount + 1
+        Arrays.fill(dp, MAX);
+        // base case
+        dp[0] = 0;
+        for (int i = 0; i < dp.length; i++) {
+            for (int coin:coins) {
+                if (i-coin < 0) continue;
+                dp[i] = Math.min(dp[i], 1 + dp[i - coin]);
+            }
+        }
+        return (dp[amount] == MAX) ? -1: dp[amount];
+    }
+}
