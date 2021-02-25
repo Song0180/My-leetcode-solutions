@@ -1,0 +1,27 @@
+// essentially DFS, not very efficient, Omega(n!)
+// reflects the concept of backtracking
+class Solution {
+    private List<List<Integer>> solutions = new LinkedList<>();
+    public List<List<Integer>> permute(int[] nums) {
+        List<Integer> path = new LinkedList<>();
+        backTrack(nums, path);
+        return solutions;
+    }
+    
+    private void backTrack(int[] nums, List<Integer> path){
+        if(path.size() == nums.length){
+            // add a copied full path to the list
+            solutions.add(new LinkedList(path));
+            return;
+        }
+        
+        for(int num: nums){
+            if (path.contains(num)){
+                continue;
+            }
+            path.add(num);
+            backTrack(nums, path);
+            path.remove(path.size()-1);
+        }
+    }
+}

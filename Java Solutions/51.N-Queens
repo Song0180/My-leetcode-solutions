@@ -1,0 +1,65 @@
+// Backtracking, not very efficient
+//Time complexity : O(N!). There is N possibilities to put the first queen, not more than N (N - 2) to put the second one, not more than N(N - 2)(N - 4) for the third one etc. In total that results in \mathcal{O}(N!)O(N!) time complexity.
+//Space complexity :O(N) to keep an information about diagonals and rows.
+class Solution {
+    private List<List<String>> solutions = new ArrayList<>();
+    public List<List<String>> solveNQueens(int n) {
+        List<String> board = new ArrayList<>();
+        // initialize the board
+        for (int i = 0; i < n; i++){
+            StringBuilder row = new StringBuilder();
+            for (int j = 0; j < n; j++){
+                row.append('.');
+            }
+            String initialRow = row.toString();
+            board.add(initialRow);
+        }
+        backTrack(board, 0);
+        return solutions;
+    }
+    
+    private void backTrack(List<String> board, int row){
+        // row reaches the last row of the board
+        if (row==board.size()){
+            solutions.add(new LinkedList(board));
+        }
+        
+        int boardSize = board.size();
+        for (int col = 0; col < boardSize; col++){
+            if(!isValid(board, row, col)){
+                continue;
+            }
+            String prevRow = board.get(row);
+            String newRow = prevRow.substring(0, col) + "Q" + prevRow.substring(col+1);
+            board.set(row, newRow);
+            backTrack(board, row + 1);
+            board.set(row, prevRow);
+        }
+    }
+    
+    private boolean isValid(List<String> board, int row, int col){
+        int boardSize = board.size();
+        // 检查col
+        for (int i = 0; i < boardSize; i++){
+            String eachRow = board.get(i);
+            if(eachRow.charAt(col)=='Q'){
+                return false;
+            }
+        }
+        // 检查右上角
+        for (int i = row -1, j = col + 1; i >= 0 && j < boardSize; i--, j++){
+            String prevRow = board.get(i);
+            if(prevRow.charAt(j)=='Q'){
+                return false;
+            }
+        }
+        // 检查左上角
+        for (int i = row -1, j = col - 1; i >= 0 && j >= 0; i--, j--){
+            String prevRow = board.get(i);
+            if(prevRow.charAt(j)=='Q'){
+                return false;
+            }
+        }
+        return true;
+    }
+}
