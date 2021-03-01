@@ -1,0 +1,150 @@
+class Solution1 {
+    private static String plus(String pwd, int digit){
+        char[] words = pwd.toCharArray();
+        if(words[digit]=='9'){
+            words[digit] = '0';
+        }else{
+            words[digit] += 1;
+        }
+        return new String(words);
+    }
+    
+    private static String minus(String pwd, int digit){
+        char[] words = pwd.toCharArray();
+        if(words[digit]=='0'){
+            words[digit] = '9';
+        }else{
+            words[digit] -= 1;
+        }
+        return new String(words);
+    }
+    
+
+    // BFS
+    // think of the passwords as nodes,
+    // each node will have 8 neighbours (plus or minus each digit, 4 * 2 = 8)
+    // the minimum distance will be the steps required for pwd == target
+    public int openLock(String[] deadends, String target) {
+        // initialize a set called visited with deadends, they are to be avoid
+        Set<String> visited = new HashSet<>();
+        for (String de: deadends) visited.add(de);
+        // corner case
+        if (visited.contains("0000")) return -1;
+        
+        Queue<String> q = new LinkedList<>();
+        q.offer("0000");
+        visited.add("0000");
+        int turns = 0;
+
+        // corner case
+        if (target.equals("0000")) return turns;
+        
+        while(!q.isEmpty()) {
+            int size = q.size();
+            // for each pwd in the queue
+            for (int i=0; i < size; i++){
+                String cur = q.poll();
+                
+                if (cur.equals(target)){
+                    return turns;
+                }
+                // for the 8 neighbours of the pwd
+                for(int j=0; j<4; j++){
+                    String plus = plus(cur, j);
+                    String minus = minus(cur, j);
+
+                    if (!visited.contains(plus)){
+                        q.offer(plus);
+                        visited.add(plus);
+                    }
+                    if (!visited.contains(minus)){
+                        q.offer(minus);
+                        visited.add(minus);
+                    }
+                }
+            }
+            // move to the next iteration
+            turns++;
+        }
+        // traversed all pwd but not found a path to the target
+        return -1;
+    }
+}
+
+// bi-directional BFS
+class Solution {
+    private static String plus(String pwd, int digit){
+        char[] words = pwd.toCharArray();
+        if(words[digit]=='9'){
+            words[digit] = '0';
+        }else{
+            words[digit] += 1;
+        }
+        return new String(words);
+    }
+    
+    private static String minus(String pwd, int digit){
+        char[] words = pwd.toCharArray();
+        if(words[digit]=='0'){
+            words[digit] = '9';
+        }else{
+            words[digit] -= 1;
+        }
+        return new String(words);
+    }
+    
+    public int openLock(String[] deadends, String target) {
+        Set<String> visited = new HashSet<>();
+        for (String de: deadends) visited.add(de);
+        // corner case
+        if (visited.contains("0000")) return -1;
+        
+        // use hashset instead of linkedlist as hashset's contains() method is faster
+        Set<String> q1 = new HashSet<>();
+        Set<String> q2 = new HashSet<>();
+        q1.add("0000");
+        q2.add(target);
+        
+        int turns = 0;
+        if (target.equals("0000")) return turns;
+        
+        while(!q1.isEmpty() && !q2.isEmpty()) {
+            // hash set is immutable, hence introduce temp hash set
+            Set<String> temp = new HashSet<>();
+            
+            // optional optimization: always iterate a smaller set first for better efficiency
+            // if (q1.size() > q2.size()) {
+            //     temp = q1;
+            //     q1 = q2;
+            //     q2 = temp;
+            //     temp = new HashSet<>();
+            // }
+
+            for (String cur : q1){
+                // if 2 bfs meets
+                if(q2.contains(cur)){
+                    return turns;
+                }
+                visited.add(cur);
+                
+                for(int j=0; j<4; j++){
+                    String plus = plus(cur, j);
+                    String minus = minus(cur, j);
+
+                    if (!visited.contains(plus)){
+                        temp.add(plus);
+                    }
+                    if (!visited.contains(minus)){
+                        temp.add(minus);
+                    }
+                }
+            }
+            turns++;
+            // swap q1 & q2, so q2 can be traversed in the next iteration of loop
+            q1 = q2;
+            // temp is essentially q1
+            q2 = temp;
+        }
+        return -1;
+    }
+}
