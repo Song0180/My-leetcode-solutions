@@ -2,6 +2,7 @@
 // reflects the concept of backtracking
 class Solution {
     private List<List<Integer>> solutions = new LinkedList<>();
+    
     public List<List<Integer>> permute(int[] nums) {
         List<Integer> path = new LinkedList<>();
         backTrack(nums, path);
