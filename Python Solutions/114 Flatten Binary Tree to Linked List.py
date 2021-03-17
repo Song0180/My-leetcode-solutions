@@ -4,6 +4,10 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+# recursive approach (post order)
+# Time: O(n)
+# Space: O(n)
 class Solution:
     def flatten(self, root: TreeNode) -> None:
         """
