@@ -29,7 +29,6 @@ var threeSum = function (nums) {
 
   return res;
 };
-
 var twoSum = function (nums, target) {
   const hash = {};
   const res = [];
@@ -52,9 +51,8 @@ var threeSum = function (nums) {
   if (nums.length < 3) {
     return res;
   }
-
+  // sorting is worthy here(nlogn << n^2)
   nums.sort((a, b) => a - b);
-
   let target = 0;
   // i: left, j:middle,k:right
   for (let i = 0; i < nums.length - 2; i++) {
@@ -62,16 +60,13 @@ var threeSum = function (nums) {
     if (nums[i] > target) {
       break;
     }
-
     // skip the number with same value to avoid duplicates
     if (i > 0 && nums[i] === nums[i - 1]) {
       continue;
     }
-
     // from now on, look for a solution of 2 sum that fits target - nums[i]
     let j = i + 1;
     let k = nums.length - 1;
-
     while (j < k) {
       let sum = nums[i] + nums[j] + nums[k];
       if (sum === target) {

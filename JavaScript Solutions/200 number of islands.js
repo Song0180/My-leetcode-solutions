@@ -78,7 +78,6 @@ var numIslands = function (grid) {
         [row, col - 1],
         [row, col + 1]
       );
-      console.log(queue);
     }
   };
 

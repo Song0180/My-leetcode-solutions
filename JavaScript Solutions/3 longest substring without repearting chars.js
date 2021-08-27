@@ -39,11 +39,11 @@ var lengthOfLongestSubstring = function (s) {
   var left = 0;
 
   // loop n times
-  return s.split('').reduce((max, v, i) => {
+  return s.split('').reduce((max, char, i) => {
     // if a visited char is in current substring, move left pointer to the next index of that char
-    left = map[v] >= left ? map[v] + 1 : left;
+    left = map[char] >= left ? map[char] + 1 : left;
     // update the index of current character
-    map[v] = i;
+    map[char] = i;
     // compare max with current substring's length and update max;
     return Math.max(max, i - left + 1);
     // max initialized to be 0;
@@ -54,15 +54,15 @@ var lengthOfLongestSubstring = function (s) {
 function lengthOfLongestSubstring(s) {
   let seen = new Set();
   let longest = 0;
-  let l = 0;
-  for (let r = 0; r < s.length; r++) {
-    while (seen.has(s[r])) {
+  let left = 0;
+  for (let right = 0; right < s.length; right++) {
+    while (seen.has(s[right])) {
       // delete previous chars until after the repeated char
-      seen.delete(s[l]);
-      l++;
+      seen.delete(s[left]);
+      left++;
     }
-    seen.add(s[r]);
-    longest = Math.max(longest, r - l + 1);
+    seen.add(s[right]);
+    longest = Math.max(longest, right - left + 1);
   }
   return longest;
 }

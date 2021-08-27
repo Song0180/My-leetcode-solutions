@@ -5,11 +5,7 @@ var buildTree = function (inorder, postorder) {
     return null;
   }
 
-  const root = {
-    val: postorder[postorder.length - 1],
-    left: null,
-    right: null,
-  };
+  const root = new TreeNode(postorder[postorder.length - 1]);
   // O(n)
   const rootIndexInOrder = inorder.indexOf(root.val);
 

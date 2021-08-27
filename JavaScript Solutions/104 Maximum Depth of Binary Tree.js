@@ -14,11 +14,11 @@ var maxDepth = function (root) {
   let depth = 1;
   let max = 0;
 
-  if (root === undefined || root === null) {
+  if (!root) {
     return 0;
   }
 
-  const dfs = curNode => {
+  const dfs = (curNode) => {
     if (curNode.left === null && curNode.right === null) {
       max = max > depth ? max : depth;
       return;
@@ -40,7 +40,7 @@ var maxDepth = function (root) {
 };
 
 // O(n)
-const maxDepth = root => {
+const maxDepth = (root) => {
   if (!root) return 0;
   let left = maxDepth(root.left);
   let right = maxDepth(root.right);

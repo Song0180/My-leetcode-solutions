@@ -3,7 +3,7 @@
  * @return {void} Do not return anything, modify s in-place instead.
  */
 
-// O( n / 2) iterative O(1) space
+// O(n/2) iterative O(1) space
 var reverseString = function (s) {
   let left = 0,
     right = s.length - 1;

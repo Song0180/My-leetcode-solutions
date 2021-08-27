@@ -46,7 +46,7 @@ const bs = (nums, target, left, right) => {
     return mid;
   } else if (nums[mid] < target) {
     return bs(nums, target, mid + 1, right);
-  } else if (nums[mid] < target) {
+  } else if (nums[mid] > target) {
     return bs(nums, target, left, mid - 1);
   }
 };

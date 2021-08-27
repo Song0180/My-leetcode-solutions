@@ -78,7 +78,7 @@ var romanToInt = function (s) {
   return value;
 };
 
-// another way of thinking
+// another way of thinking (written in python)
 // O(n)
 // class Solution:
 //     def romanToInt(self, s: str) -> int:

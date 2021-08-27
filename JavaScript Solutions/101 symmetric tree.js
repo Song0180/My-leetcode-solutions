@@ -22,7 +22,7 @@ var isSymmetric = function (root) {
   return checkSym(root.left, root.right);
 };
 
-// iterative
+// iterative bfs
 // O(n) for time and space
 var isSymmetric = function (root) {
   if (!root) {
