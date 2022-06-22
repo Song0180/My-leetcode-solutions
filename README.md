@@ -1,2 +1,2 @@
 # My-leetcode-solutions
-My solutions to algorithm (python, javascript, java) questions on leetcode.
+My solutions to algorithm (primarily written in js & ts; may also use python, java, or c++) questions on leetcode.
