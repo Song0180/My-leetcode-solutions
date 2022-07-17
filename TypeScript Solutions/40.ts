@@ -1,3 +1,4 @@
+// dfs time conplexity O(2^n): each number can either be or not be in the permutation
 function combinationSum2(candidates: number[], target: number): number[][] {
   const res: number[][] = [];
   candidates.sort((a, b) => a - b);
