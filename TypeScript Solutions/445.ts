@@ -10,6 +10,7 @@ class ListNode {
   }
 }
 
+// O(n)
 function addTwoNumbers(
   l1: ListNode | null,
   l2: ListNode | null
@@ -27,7 +28,7 @@ function addTwoNumbers(
     l2Length++;
     l2Trav = l2Trav.next;
   }
-  // make l1 l2 equal length
+  // make l1 l2 equal length by padding zeros
   const lengthDiff = l1Length - l2Length;
   if (lengthDiff > 0) {
     const newL2Head = new ListNode(0);
@@ -75,3 +76,39 @@ const recursivelyAdd = (
   }
   return [null, 0];
 };
+
+// stack solution O(n)
+function addTwoNumbers2(
+  l1: ListNode | null,
+  l2: ListNode | null
+): ListNode | null {
+  const s1: number[] = [],
+    s2: number[] = [];
+
+  while (l1) {
+    s1.push(l1.val);
+    l1 = l1.next;
+  }
+
+  while (l2) {
+    s2.push(l2.val);
+    l2 = l2.next;
+  }
+
+  let sum = 0;
+  let list = new ListNode(0);
+
+  while (s1.length > 0 || s2.length > 0) {
+    sum += (s1.pop() ?? 0) + (s2.pop() ?? 0);
+
+    list.val = sum % 10;
+    const carry = Math.floor(sum / 10);
+    const newHead = new ListNode(carry);
+
+    newHead.next = list;
+    list = newHead;
+    sum = carry;
+  }
+
+  return list.val === 0 ? list.next : list;
+}
