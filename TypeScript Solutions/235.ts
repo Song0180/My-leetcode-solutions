@@ -69,7 +69,7 @@ const count = (
   return sum;
 };
 
-// a much simpler solution
+// a much simpler iterative solution
 function lowestCommonAncestor2(
   root: TreeNode | null,
   p: TreeNode | null,
@@ -83,6 +83,24 @@ function lowestCommonAncestor2(
     // p.val < root.val means root must have the left children
     // vice versa
     root = p!.val < root!.val ? root?.left! : root?.right!;
+  }
+  return root;
+}
+
+// improved recursive solution
+function lowestCommonAncestor3(
+  root: TreeNode | null,
+  p: TreeNode | null,
+  q: TreeNode | null
+): TreeNode | null {
+  // if in the same subtree
+  if ((root!.val - p!.val) * (root!.val - q!.val) > 0) {
+    // if in the left subtree
+    if (p!.val < root!.val) {
+      return lowestCommonAncestor3(root!.left, p, q);
+    } else {
+      return lowestCommonAncestor3(root!.right, p, q);
+    }
   }
   return root;
 }
