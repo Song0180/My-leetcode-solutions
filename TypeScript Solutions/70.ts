@@ -30,12 +30,19 @@ function climbStairs(n: number): number {
   return cur;
 }
 
-/**
- * n = 4
- *
- * 1 + 1 + 1 + 1
- * 1 + 2 + 1
- * 2 + 1 + 1
- * 1 + 1 + 2
- * 2 + 2
- */
+// dp table.
+// actually worse than just using 3 variables interms of space complexity
+// but easier to think of & more generic
+function climbStairs2(n: number): number {
+  const dp: number[] = [];
+  dp[1] = 1;
+  dp[2] = 2;
+
+  let count = 3;
+  while (count < n) {
+    dp[count] = dp[count - 1] + dp[count - 2];
+    count++;
+  }
+
+  return dp[n];
+}
