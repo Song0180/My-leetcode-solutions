@@ -2,7 +2,7 @@
 Promise.prototype._all = (promiseList: Promise<any>[]) => {
   return new Promise((resolve, reject) => {
     const values: any[] = [];
-    promiseList.forEach((promise, index) => {
+    promiseList.forEach((promise) => {
       Promise.resolve(promise).then(
         (res) => {
           values.push(res);
