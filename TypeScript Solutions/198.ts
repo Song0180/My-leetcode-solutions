@@ -61,6 +61,8 @@ function rob2(nums: number[]): number {
 
   for (const num of nums) {
     let temp = prev1;
+    // update prev1 and prev2
+    // decide if rob prev2 + cur or prev1
     prev1 = Math.max(prev2 + num, prev1);
     prev2 = temp;
   }
